@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "88027028854",
+    "firebase_url": "https://owlcity-1e715.firebaseio.com",
+    "project_id": "owlcity-1e715",
+    "storage_bucket": "owlcity-1e715.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:88027028854:android:38462e4f37fdd3c0",
+        "android_client_info": {
+          "package_name": "com.example.arthur.owlcity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "88027028854-dus59emfemed5357utrs0gv2ehslmcpi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.arthur.owlcity",
+            "certificate_hash": "591166996051d916b317e69408599d2398e7d83b"
+          }
+        },
+        {
+          "client_id": "88027028854-bbu0fn6pavlbus3bm8uv012mcflg6sa9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArrQe7VFIcoNg4Fkv0HRg9PnfzyVejG0U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "88027028854-bbu0fn6pavlbus3bm8uv012mcflg6sa9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
