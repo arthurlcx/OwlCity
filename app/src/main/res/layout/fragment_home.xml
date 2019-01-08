@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/background"
+    android:background="@drawable/backgroundhome"
     android:orientation="vertical"
     android:weightSum="10">
 
@@ -57,7 +57,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/clubrservation"
+                    android:background="@drawable/clubreservation"
                     android:scaleType="centerCrop"
                     android:src="@drawable/gradient"/>
 
@@ -141,7 +141,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/getride"
+                    android:background="@drawable/mylocation"
                     android:scaleType="centerCrop"
                     android:src="@drawable/gradient"/>
 
@@ -149,7 +149,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:text="Get A Ride"
+                    android:text="Where Am I"
                     android:textSize="20sp"
                     android:layout_marginBottom="15dp"
                     android:textStyle="bold"
@@ -183,7 +183,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/join"
+                    android:background="@drawable/joinus"
                     android:scaleType="centerCrop"
                     android:src="@drawable/gradient"/>
 
