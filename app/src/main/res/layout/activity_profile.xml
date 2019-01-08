@@ -18,7 +18,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="25dp"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop" />
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -40,7 +40,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:background="@drawable/reg_btn_style"
             android:layout_marginTop="20dp"
-            android:text="Change Profile Picture"
+            android:text="@string/change_profile_picture"
             android:onClick="changePic"
             android:textColor="@android:color/white"/>
 
@@ -66,14 +66,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView1"
-                android:text="Account"
+                android:text="@string/account"
                 android:textSize="20sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView2"
-                android:text="User ID"
+                android:text="@string/user_id"
                 android:textSize="20sp"
                 android:fontFamily="sans-serif-smallcaps"
                 android:layout_marginTop="10dp"/>
@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/userIdText"
                 android:textColor="@android:color/black"
-                android:text="ID"
+                android:text="@string/id"
                 android:textSize="15sp"
                 android:layout_marginTop="8dp"/>
 
@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/userNameText"
                 android:textColor="@android:color/black"
-                android:text="NAME"
+                android:text="@string/name2"
                 android:textSize="20sp"
                 android:layout_marginTop="8dp"/>
 
@@ -118,7 +118,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/emailText"
-                android:text="EMAIL"
+                android:text="@string/email2"
                 android:textColor="@android:color/black"
                 android:textSize="20sp"
                 android:layout_marginTop="8dp"/>
@@ -127,7 +127,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView8"
-                android:text="Account Type"
+                android:text="@string/account_type"
                 android:textSize="20sp"
                 android:fontFamily="sans-serif-smallcaps"
                 android:layout_marginTop="15dp"/>
@@ -136,7 +136,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/typeText"
-                android:text="Member"
+                android:text="@string/member"
                 android:textColor="@android:color/black"
                 android:textSize="20sp"
                 android:layout_marginTop="8dp"/>
@@ -145,12 +145,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/changeProfileText"
-                android:text="Change account info"
+                android:text="@string/change_account_info"
                 android:textColor="@color/colorPrimary"
                 android:textAlignment="textEnd"
                 android:layout_marginTop="15dp"
                 android:clickable="true"
-                android:onClick="updateProfile"/>
+                android:onClick="updateProfile"
+                android:focusable="true" />
         </LinearLayout>
 
         <View
@@ -175,14 +176,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView5"
-                android:text="Payment Info"
+                android:text="@string/payment_info"
                 android:textSize="20sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView6"
-                android:text="Card No"
+                android:text="@string/card_no"
                 android:textSize="20sp"
                 android:fontFamily="sans-serif-smallcaps"
                 android:layout_marginTop="10dp"/>
@@ -191,7 +192,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/cardNoText"
-                android:text="CARDNO"
+                android:text="@string/cardno"
                 android:textColor="@android:color/black"
                 android:textSize="20sp"
                 android:layout_marginTop="8dp"/>
@@ -200,7 +201,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView7"
-                android:text="Card Holder Name"
+                android:text="@string/card_holder_name"
                 android:textSize="20sp"
                 android:fontFamily="sans-serif-smallcaps"
                 android:layout_marginTop="15dp"/>
@@ -209,7 +210,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/cardNameText"
-                android:text="CARDNAME"
+                android:text="@string/cardname"
                 android:textColor="@android:color/black"
                 android:textSize="20sp"
                 android:layout_marginTop="8dp"/>
@@ -218,13 +219,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/changePaymentText"
-                android:text="Change card info"
+                android:text="@string/change_card_info"
                 android:textColor="@color/colorPrimary"
                 android:textAlignment="textEnd"
                 android:layout_marginTop="15dp"
                 android:clickable="true"
                 android:onClick="updateCard"
-                android:layout_marginBottom="20dp"/>
+                android:layout_marginBottom="20dp"
+                android:focusable="true" />
 
         </LinearLayout>
 
@@ -241,14 +243,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView9"
-                android:text="Payment Information"
+                android:text="@string/payment_information"
                 android:textSize="20sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView10"
-                android:text="Card Not Registered"
+                android:text="@string/card_not_registered"
                 android:textSize="20sp"
                 android:fontFamily="sans-serif-smallcaps"
                 android:layout_marginTop="20dp"/>
@@ -258,7 +260,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/btnAddCard"
                 android:onClick="addCard"
-                android:text="Add Card"
+                android:text="@string/add_card"
                 android:background="@drawable/reg_btn_style"
                 android:textColor="@android:color/white"
                 android:layout_marginTop="20dp"

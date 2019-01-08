@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="sans-serif-smallcaps"
-            android:text="Card Number "
+            android:text="@string/card_number"
             android:textSize="20sp" />
 
         <EditText
@@ -37,7 +37,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
             android:fontFamily="sans-serif-smallcaps"
-            android:text="Card Holder Name"
+            android:text="@string/card_holder_name"
             android:textSize="20sp" />
 
         <EditText
@@ -52,7 +52,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
             android:fontFamily="sans-serif-smallcaps"
-            android:text="CCV"
+            android:text="@string/ccv"
             android:textSize="20sp" />
 
         <EditText
@@ -70,7 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/removeCardTextView"
-        android:text="Remove this card"
+        android:text="@string/remove_this_card"
         android:textSize="20sp"
         android:textColor="@android:color/holo_red_dark"
         app:layout_constraintStart_toStartOf="parent"
@@ -87,7 +87,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/reg_btn_style"
-        android:text="Save"
+        android:text="@string/save"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

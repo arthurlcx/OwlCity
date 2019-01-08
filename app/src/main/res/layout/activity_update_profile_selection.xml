@@ -38,9 +38,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Change Name"
+                    android:text="@string/change_name"
                     android:textSize="20sp"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:fontFamily="sans-serif-smallcaps"/>
 
             </RelativeLayout>
@@ -69,9 +69,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Change Email"
+                    android:text="@string/change_email"
                     android:textSize="20sp"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:fontFamily="sans-serif-smallcaps"/>
 
             </RelativeLayout>
@@ -100,9 +100,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Change Password"
+                    android:text="@string/change_password"
                     android:textSize="20sp"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:fontFamily="sans-serif-smallcaps"/>
 
             </RelativeLayout>

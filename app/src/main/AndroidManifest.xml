@@ -60,7 +60,7 @@
             android:label="Where is the Club?" />
         <activity
             android:name=".Activity.UserLocationMapsActivity"
-            android:label="Get A Ride" />
+            android:label="My Location" />
         <activity
             android:name=".Activity.SignIn"
             android:theme="@style/AppTheme.NoActionBar">
@@ -83,15 +83,24 @@
             android:name=".Activity.ReservationDetail"
             android:label="@string/title_activity_reservation_detail"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activity.ClubActivity" />
-        <activity android:name=".Activity.PackageActivity" />
-        <activity android:name=".Activity.DatePickerActivity" />
-        <activity android:name=".Activity.adminActivity" />
-        <activity android:name=".Activity.ProfileActivity" />
-        <activity android:name=".Activity.UpdateAccountSelectionActivity" />
-        <activity android:name=".Activity.UpdateAccountActivity" />
-        <activity android:name=".Activity.AddCardActivity" />
-        <activity android:name=".Activity.UpdateCardInfoActivity"></activity>
+        <activity android:name=".Activity.ClubActivity"
+            android:label="Club"/>
+        <activity android:name=".Activity.PackageActivity"
+            android:label="Package"/>
+        <activity android:name=".Activity.DatePickerActivity"
+            android:label="Pick a Data"/>
+        <activity android:name=".Activity.adminActivity"
+            android:label="Admin"/>
+        <activity android:name=".Activity.ProfileActivity"
+            android:label="Profile"/>
+        <activity android:name=".Activity.UpdateAccountSelectionActivity"
+            android:label="Setting"/>
+        <activity android:name=".Activity.UpdateAccountActivity"
+            android:label="Setting"/>
+        <activity android:name=".Activity.AddCardActivity"
+            android:label="Add Card"/>
+        <activity android:name=".Activity.UpdateCardInfoActivity"
+            android:label="Setting"></activity>
     </application>
 
 </manifest>

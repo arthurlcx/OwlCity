@@ -48,7 +48,6 @@ public class Payment extends AppCompatActivity {
     private FirebaseUser firebaseUser;
 
     private CardInfo cardInfo;
-    private Reservation reservation;
 
 
     @Override
