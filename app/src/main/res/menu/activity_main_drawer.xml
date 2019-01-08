@@ -24,19 +24,18 @@
     <item android:title="Services">
         <menu>
             <item
-                android:id="@+id/nav_getRide"
-                android:icon="@drawable/ic_directions_car_black_24dp"
-                android:title="Get Ride" />
-            <item
-                android:id="@+id/nav_invite"
-                android:icon="@drawable/ic_group_add_black_24dp"
-                android:title="Invite Friend" />
+                android:id="@+id/nav_myLocation"
+                android:icon="@drawable/ic_my_location_black_24dp"
+                android:title="My Location" />
 
         </menu>
     </item>
 
     <item android:title="Account">
         <menu>
+            <item
+                android:id="@+id/nav_profile"
+                android:title="Profile" />
             <item
                 android:id="@+id/nav_register"
                 android:title="Register" />

@@ -23,6 +23,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
+//custom adapter for recycler view
 public class MyReservationAdapter extends RecyclerView.Adapter<MyReservationAdapter.myViewHolder> {
 
     Context mContext;
@@ -38,6 +39,7 @@ public class MyReservationAdapter extends RecyclerView.Adapter<MyReservationAdap
     @Override
     public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
+        //inflate card view layout
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View v = inflater.inflate(R.layout.card_item_my_reservation,parent,false);
 
@@ -48,8 +50,10 @@ public class MyReservationAdapter extends RecyclerView.Adapter<MyReservationAdap
     public void onBindViewHolder(@NonNull myViewHolder holder, final int position) {
 
 
+        //update UI
         holder.tv_title.setText(mData.get(position).getClubName() + "\n" + mData.get(position).getDate());
 
+        //define button
         holder.btn_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

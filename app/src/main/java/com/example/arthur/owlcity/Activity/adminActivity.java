@@ -61,6 +61,7 @@ public class adminActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
 
+        //request CAMERA permission from user
         if (ContextCompat.checkSelfPermission(adminActivity.this,
                 Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 
@@ -82,6 +83,7 @@ public class adminActivity extends AppCompatActivity {
         btnScan = findViewById(R.id.btnScan);
         logoutTextView = findViewById(R.id.logoutTextView);
 
+        //button click to initiate camera
         btnScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,6 +91,7 @@ public class adminActivity extends AppCompatActivity {
 
                     makeToast("clicked");
 
+                    //start camera
                     Intent intent = new Intent (MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(intent, BARCODE_RECO_REQ_CODE);
                 } catch (Exception e) {
@@ -98,6 +101,7 @@ public class adminActivity extends AppCompatActivity {
             }
         });
 
+        //to logout as admin
         logoutTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,13 +124,16 @@ public class adminActivity extends AppCompatActivity {
 
     }
 
+    //once CAMERA successfully taken picture of the QR code
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == BARCODE_RECO_REQ_CODE){
             if(resultCode == adminActivity.RESULT_OK){
+                //store photo as bitmap
                 Bitmap photo = (Bitmap)data.getExtras().get("data");
+                //initiate Firebase ML kit to read barcode
                 barcodeRecognition(photo);
             } else {
                 makeToast("Error result code ");
@@ -136,21 +143,26 @@ public class adminActivity extends AppCompatActivity {
         }
     }
 
+    //Firebase ML kit for barcode
     private void barcodeRecognition(Bitmap photo) {
 
+        //create a Firebase Vision Image object from the QR code photo
         FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(photo);
 
+        //configure barcode reader to read only QR code, improves performance
         FirebaseVisionBarcodeDetectorOptions options =
                 new FirebaseVisionBarcodeDetectorOptions.Builder()
                         .setBarcodeFormats(
                                 FirebaseVisionBarcode.FORMAT_QR_CODE)
                         .build();
 
+        //apply the configuration
         FirebaseVisionBarcodeDetector detector = FirebaseVision.getInstance()
                 .getVisionBarcodeDetector(options);
 
 
 
+        //initiate Firebase ML barcode recognition
         Task<List<FirebaseVisionBarcode>> result = detector.detectInImage(image)
                 .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionBarcode>>() {
                     @Override
@@ -159,13 +171,11 @@ public class adminActivity extends AppCompatActivity {
                         // ...
 
                         for (FirebaseVisionBarcode barcode: barcodes) {
-                            Rect bounds = barcode.getBoundingBox();
-                            Point[] corners = barcode.getCornerPoints();
 
+                            //the QR code result will be stored in rawValue string
                             String rawValue = barcode.getRawValue();
 
-                            int valueType = barcode.getValueType();
-
+                            //QR code result passed down to be processed
                             retrieveReservationInfo(rawValue);
                         }
 
@@ -174,8 +184,7 @@ public class adminActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        // Task failed with an exception
-                        // ...
+                        // if QR code reads failed, toast error message
 
                         makeToast("Error reading QR Code");
                     }
@@ -184,8 +193,11 @@ public class adminActivity extends AppCompatActivity {
 
     }
 
+    //process QR code result
     private void retrieveReservationInfo(String rawValue) {
+        //establish reference in Firebase Realtime database
         DatabaseReference firebaseReference = FirebaseDatabase.getInstance().getReference("reservationInfo");
+        //create database query - SELECT * FROM reservationInfo WHERE reservationID = QR code result
         Query query = firebaseReference.orderByChild("reservationID").equalTo(rawValue);
 
         query.addListenerForSingleValueEvent(valueEventListener);
@@ -198,6 +210,7 @@ public class adminActivity extends AppCompatActivity {
             if(dataSnapshot.exists()){
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     reservationInfo = snapshot.getValue(ReservationInfo.class);
+                    //once matched with a record, delete if from database. means E-pass is used
                     snapshot.getRef().removeValue();
                 }
 
@@ -215,6 +228,7 @@ public class adminActivity extends AppCompatActivity {
         }
     };
 
+    //update UI to display the scan results and processed data
     private void updateUI(ReservationInfo reservationInfo) {
         if (reservationInfo != null){
             result = reservationInfo.getDate() + "\n" +

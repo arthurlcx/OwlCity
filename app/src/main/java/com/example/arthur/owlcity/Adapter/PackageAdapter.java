@@ -23,6 +23,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
+//custom adapter for recycler view
 public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.myViewHolder> {
 
     Context mContext;
@@ -38,6 +39,7 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.myViewHo
     @Override
     public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
+        //inflate card view layout
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View v = inflater.inflate(R.layout.card_item_package,parent,false);
 
@@ -47,6 +49,7 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.myViewHo
     @Override
     public void onBindViewHolder(@NonNull myViewHolder holder, final int position) {
 
+        //calling Glide API to display images
         try {
             StorageReference storageReference = FirebaseStorage.getInstance().getReference(mData.get(position).getPackageImg());
             GlideApp.with(mContext).load(storageReference).into(holder.background_img);
@@ -56,10 +59,12 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.myViewHo
 
         }
 
+        //update UI
         holder.profile_photo.setVisibility(View.GONE);
 
         holder.tv_title.setText(mData.get(position).getPackName() + "\n" + mData.get(position).getPackDesc() + "\n" + mData.get(position).getPackPrice());
 
+        //define button
         holder.btn_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

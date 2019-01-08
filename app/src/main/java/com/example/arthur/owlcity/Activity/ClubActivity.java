@@ -37,6 +37,7 @@ public class ClubActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_club);
 
+        //receive city code value from previous activity
         intent = getIntent();
         cityCode = intent.getStringExtra("City Code");
 
@@ -45,7 +46,9 @@ public class ClubActivity extends AppCompatActivity {
         Window w = getWindow();
         w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
+        //establish Firebase database reference
         firebaseReference = FirebaseDatabase.getInstance().getReference("club");
+        //query - (SELECT * FROM club WHERE cityCode = desired city
         Query query = firebaseReference.orderByChild("cityCode").equalTo(cityCode);
         query.addListenerForSingleValueEvent(valueEventListener);
     }
@@ -56,11 +59,14 @@ public class ClubActivity extends AppCompatActivity {
             for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                 Club club = snapshot.getValue(Club.class);
 
+                //for each matched records, add into our array list
                 myClubList.add(club);
             }
 
+            //adapt the array list into our custom array adapter
             ClubAdapter cityAdapter = new ClubAdapter(ClubActivity.this, myClubList);
             recyclerView.setAdapter(cityAdapter);
+            //display array list
             recyclerView.setLayoutManager(new LinearLayoutManager(ClubActivity.this));
         }
 

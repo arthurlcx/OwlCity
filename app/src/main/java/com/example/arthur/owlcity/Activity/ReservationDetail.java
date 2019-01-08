@@ -43,6 +43,7 @@ public class ReservationDetail extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //button to generate QR code for E-Pass
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,6 +51,7 @@ public class ReservationDetail extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ReservationDetail.this);
                 LayoutInflater inflater = (ReservationDetail.this).getLayoutInflater();
                 builder.setTitle("E-Pass");
+                //inflate the alert dialog with alert_qr layout
                 View v = inflater.inflate(R.layout.alert_qr, null);
                 builder.setView(v).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
@@ -68,6 +70,7 @@ public class ReservationDetail extends AppCompatActivity {
                 }
 
 
+                //calling ZXING API to generate QR Code
                 try {
                     BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
                     Bitmap bitmap = barcodeEncoder.encodeBitmap(reservationId, BarcodeFormat.QR_CODE, 400, 400);
@@ -96,11 +99,14 @@ public class ReservationDetail extends AppCompatActivity {
 
 
 
+        //set up Firebase database to retireve reservation information
         DatabaseReference firebaseReference = FirebaseDatabase.getInstance().getReference("reservationInfo");
+        //SELECT * FROM reservationInfo WHERE reservationId = this reservation Id
         Query query = firebaseReference.orderByChild("reservationID").equalTo(reservationId);
         query.addListenerForSingleValueEvent(valueEventListener);
     }
 
+    //retrieve data from database
     ValueEventListener valueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -109,6 +115,7 @@ public class ReservationDetail extends AppCompatActivity {
                     reservationInfo = snapshot.getValue(ReservationInfo.class);
                 }
 
+                //assign value into UI
                 assignValue(reservationInfo);
             }else {
                 makeToast("No data found");
@@ -121,6 +128,7 @@ public class ReservationDetail extends AppCompatActivity {
         }
     };
 
+    //update the UI with the retrieved information
     public void assignValue (ReservationInfo reservationInfo){
         reservationIdTextView.setText(reservationId);
         dateTextView.setText(reservationInfo.getDate());

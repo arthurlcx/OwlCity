@@ -1,6 +1,7 @@
 package com.example.arthur.owlcity.Class;
 
 public class CardInfo {
+    private String cardId;
     private Long cardNo;
     private String cardName;
     private Long ccv;
@@ -9,11 +10,20 @@ public class CardInfo {
     public CardInfo() {
     }
 
-    public CardInfo(Long cardNo, String cardName, Long ccv, String cardOwnerId) {
+    public CardInfo(String cardId, Long cardNo, String cardName, Long ccv, String cardOwnerId) {
+        this.cardId = cardId;
         this.cardNo = cardNo;
         this.cardName = cardName;
         this.ccv = ccv;
         this.cardOwnerId = cardOwnerId;
+    }
+
+    public String getCardId() {
+        return cardId;
+    }
+
+    public void setCardId(String cardId) {
+        this.cardId = cardId;
     }
 
     public Long getCardNo() {

@@ -55,6 +55,7 @@ public class ClubInfo extends AppCompatActivity {
         address = findViewById(R.id.address);
         imageView = findViewById(R.id.imageView);
 
+        //floating button clicked, brings to view package
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +66,7 @@ public class ClubInfo extends AppCompatActivity {
             }
         });
 
+        //floating button clicked, brings user to map showing where the club is
         FloatingActionButton mapfab = (FloatingActionButton) findViewById(R.id.mapfab);
         mapfab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +80,7 @@ public class ClubInfo extends AppCompatActivity {
         });
 
         Intent intent = getIntent();
-
+        //receive club name from previous activity
         clubName = intent.getStringExtra("Club Name");
 
         CollapsingToolbarLayout toolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
@@ -86,9 +88,11 @@ public class ClubInfo extends AppCompatActivity {
 
         clubId = intent.getStringExtra("Club ID");
 
+        //establish Firebase database connecting
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseReference = firebaseDatabase.getReference("club");
 
+        //query - (SELECT * FROM club WHERE clubID = desired culb id
         Query query = firebaseReference.orderByChild("clubID").equalTo(clubId);
 
         query.addListenerForSingleValueEvent(valueEventListener);
@@ -108,6 +112,7 @@ public class ClubInfo extends AppCompatActivity {
         }
     };
 
+    //retrieve data from database and store into an Club object
     public void showData(DataSnapshot dataSnapshot){
         for(DataSnapshot snapshot : dataSnapshot.getChildren()){
             club = snapshot.getValue(Club.class);
@@ -116,6 +121,7 @@ public class ClubInfo extends AppCompatActivity {
         displayInfo(club);
     }
 
+    //display and update the UI with retrieved information
     public void displayInfo (Club club){
         description.setText(club.getDesc());
         operatingHour.setText(club.getOpHour());
@@ -127,6 +133,7 @@ public class ClubInfo extends AppCompatActivity {
 
         storageReference = FirebaseStorage.getInstance().getReference(club.getClubImg());
 
+        //called Glide API to display images
         GlideApp.with(this).load(storageReference).into(imageView);
 
     }

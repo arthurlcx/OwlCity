@@ -70,30 +70,15 @@ private Uri imageUri = null;
         userName=findViewById(R.id.regName);
         loadingProgress=findViewById(R.id.progressBar);
         regBtn = findViewById(R.id.regBtn);
-        mySwitch = findViewById(R.id.switch1);
         imageView = findViewById(R.id.imageView3);
 
-        mySwitch.setChecked(false);
         accountType = "member";
-
 
         loadingProgress.setVisibility(View.INVISIBLE);
 
         mAuth = FirebaseAuth.getInstance();
 
-        mySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    mySwitch.setText("Driver");
-                    accountType = "driver";
-                } else {
-                    mySwitch.setText("Member");
-                    accountType = "member";
-                }
-            }
-        });
-
+        //click register button
         regBtn.setOnClickListener(new View.OnClickListener(){
 
             public void onClick(View view){
@@ -101,7 +86,8 @@ private Uri imageUri = null;
                 password = userPassword.getText().toString();
                 password2 = userPassword2.getText().toString();
                 name = userName.getText().toString();
-                
+
+                //if all information invalid
                 if(email.isEmpty() || name.isEmpty() || password.isEmpty()|| !password.equals(password2)){
                     showMessage("Please verify all fields");
                     regBtn.setVisibility(View.VISIBLE);
@@ -109,6 +95,7 @@ private Uri imageUri = null;
                 }
                 else{
 
+                    //if valid, start registration
                     uploadToFirebase();
 
                 }
@@ -118,8 +105,10 @@ private Uri imageUri = null;
 
     }
 
+    //create user object
     private void CreateUserAccount(final String email, final String name, final String password, final String profileImg) {
 
+        //create a new Firebase Authentication account using email and password
         mAuth.createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -127,6 +116,7 @@ private Uri imageUri = null;
 
                         if(task.isSuccessful()){
                             showMessage("ACCOUNT CREATED");
+                            //once Firebase Authentication registered success, next is store into Firebase database
                             insertToFirebase(name, password, email, profileImg);
                         }
                         else
@@ -143,6 +133,7 @@ private Uri imageUri = null;
         }
 
 
+        // insert into Firebase database as second copy
     private void insertToFirebase (String name, String password, String email, String profileImg){
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("user");
 
@@ -151,6 +142,7 @@ private Uri imageUri = null;
         try {
             databaseReference.child(mAuth.getCurrentUser().getUid()).setValue(user);
 
+            //update user info in Firebase Authentication
             updateUserInfo(mAuth.getCurrentUser());
 
         } catch (Exception e) {
@@ -161,10 +153,12 @@ private Uri imageUri = null;
 
     }
 
+    //update user profile info. name, email and profile photo url
     private void updateUserInfo(FirebaseUser currentUser) {
 
         UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
                 .setDisplayName(userName.getText().toString())
+                .setPhotoUri(Uri.parse(profileImg))
                 .build();
 
         currentUser.updateEmail(userEmail.getText().toString());
@@ -181,6 +175,7 @@ private Uri imageUri = null;
                 });
     }
 
+    //send user to sign in page
     private void nextActivity(){
         Intent intent = new Intent(getApplicationContext(), SignIn.class);
 
@@ -194,6 +189,7 @@ private Uri imageUri = null;
 
     }
 
+    //open phone GALLERY to upload image
     public void uploadProfilePicture(View view) {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -201,6 +197,7 @@ private Uri imageUri = null;
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
+    //once finished selecting photo
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -209,8 +206,10 @@ private Uri imageUri = null;
 
             try {
 
+                //called Glide API to display image as preview
                 GlideApp.with(this).load(data.getData()).apply(RequestOptions.circleCropTransform()).into(imageView);
 
+                //store the image URI
                 imageUri = data.getData();
 
             } catch (Exception e) {
@@ -221,18 +220,21 @@ private Uri imageUri = null;
         }
     }
 
+    //get image file extension for naming image file (.jpg .png)
     public String getFileExtension (Uri uri){
         ContentResolver cR = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
+    //upload image into Firebase Storage
     public void uploadToFirebase(){
         if (imageUri != null) {
 
             regBtn.setVisibility(View.INVISIBLE);
             loadingProgress.setVisibility(View.VISIBLE);
 
+            //set up the directory
             profileImg = "profile/" + System.currentTimeMillis() + "." + getFileExtension(imageUri);
 
             StorageReference storageReference = FirebaseStorage.getInstance().getReference();
@@ -243,6 +245,7 @@ private Uri imageUri = null;
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
+                            //create a 5 seconds delay to esure the progress bar finishes. act as a user feedback
                             Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 @Override
@@ -253,6 +256,7 @@ private Uri imageUri = null;
 
                             showMessage("Image uploaded successfully");
 
+                            //create user object
                             CreateUserAccount(email,name,password, profileImg);
 
                         }
@@ -266,6 +270,7 @@ private Uri imageUri = null;
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            //during uploading, update the progress bar byt the ratio of the byte data transferred
                             double progress = (100.0 * taskSnapshot.getBytesTransferred()/ taskSnapshot.getTotalByteCount());
                             loadingProgress.setProgress((int)progress);
                         }

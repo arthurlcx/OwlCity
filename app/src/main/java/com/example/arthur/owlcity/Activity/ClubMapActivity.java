@@ -34,6 +34,7 @@ public class ClubMapActivity extends FragmentActivity implements OnMapReadyCallb
 
         Intent mapIntent = getIntent();
 
+        //received latitude and longitude from previous activity
         latitude = mapIntent.getDoubleExtra("latitude", 0);
         longitude = mapIntent.getDoubleExtra("longitude", 0);
         clubName = mapIntent.getStringExtra("clubName");
@@ -56,10 +57,13 @@ public class ClubMapActivity extends FragmentActivity implements OnMapReadyCallb
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
+        //create a LatLng variable
         LatLng club = new LatLng(latitude, longitude);
+        //add a marker on the coordinate with a club name as lable
         mMap.addMarker(new MarkerOptions().position(club).title(clubName));
+        //zoom in the map with value 17
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(club, 17));
+        //switch the map into satellite view
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
     }
 }

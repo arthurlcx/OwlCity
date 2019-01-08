@@ -21,6 +21,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
+//custom adapter for recycler view
 public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.myViewHolder> {
 
     Context mContext;
@@ -36,6 +37,7 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.myViewHolder> 
     @Override
     public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
+        //inflate card view layout
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View v = inflater.inflate(R.layout.card_item,parent,false);
 
@@ -45,6 +47,7 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.myViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull myViewHolder holder, final int position) {
 
+        //calling Glides API to display images
         try {
             StorageReference storageReference = FirebaseStorage.getInstance().getReference(mData.get(position).getClubImg());
             StorageReference storageReference2 = FirebaseStorage.getInstance().getReference(mData.get(position).getClubLogo());
@@ -57,8 +60,10 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.myViewHolder> 
 
         }
 
+        //update UI
         holder.tv_title.setText(mData.get(position).getName());
 
+        //define button
         holder.btn_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

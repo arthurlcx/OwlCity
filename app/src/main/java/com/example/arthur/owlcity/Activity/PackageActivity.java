@@ -40,6 +40,7 @@ public class PackageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_package);
 
+        //receive data from previous activity
         intent = getIntent();
         clubId = intent.getStringExtra("Club ID");
 
@@ -49,23 +50,29 @@ public class PackageActivity extends AppCompatActivity {
         w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
 
+        //set up Firebase database reference
         firebaseReference = FirebaseDatabase.getInstance().getReference("Package");
+        //SELECT * FROM package WEHRE clubId = desired club id
         Query query = firebaseReference.orderByChild("clubID").equalTo(clubId);
         query.addListenerForSingleValueEvent(valueEventListener);
 
     }
 
+    //retrieve data from database
     ValueEventListener valueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             if(dataSnapshot.exists()){
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     clubPackage = snapshot.getValue(ClubPackage.class);
+                    //for each record matched, add into array list
                     myPackageList.add(clubPackage);
 
                 }
 
+                //attach the array list into a custom array adapter
                 PackageAdapter packageAdapter = new PackageAdapter(PackageActivity.this, myPackageList);
+                //display array list
                 recyclerView.setAdapter(packageAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(PackageActivity.this));
 

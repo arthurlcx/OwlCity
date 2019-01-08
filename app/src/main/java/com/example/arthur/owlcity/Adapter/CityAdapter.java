@@ -21,6 +21,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
+//custom adapter for recycler view
 public class CityAdapter extends RecyclerView.Adapter<CityAdapter.myViewHolder> {
 
     Context mContext;
@@ -36,6 +37,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.myViewHolder> 
     @Override
     public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
+        //inflate card view layout
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View v = inflater.inflate(R.layout.card_item,parent,false);
 
@@ -45,6 +47,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.myViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull myViewHolder holder, final int position) {
 
+        //calling Glide API to display images
         try {
             StorageReference storageReference = FirebaseStorage.getInstance().getReference(mData.get(position).getImageFileName());
             GlideApp.with(mContext).load(storageReference).into(holder.background_img);
@@ -56,8 +59,10 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.myViewHolder> 
 
         holder.profile_photo.setVisibility(View.GONE);
 
+        //update UI text
         holder.tv_title.setText(mData.get(position).getCityName());
 
+        //define onClick for the button "next"
         holder.btn_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

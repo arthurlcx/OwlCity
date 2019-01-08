@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.arthur.owlcity.Class.CardInfo;
 import com.example.arthur.owlcity.Class.ReservationInfo;
 import com.example.arthur.owlcity.R;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException;
 import com.google.firebase.auth.FirebaseUser;
@@ -57,9 +58,11 @@ public class Payment extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //initiate current user from Firebase Authentication
         firebaseUser = firebaseAuth.getInstance().getCurrentUser();
 
 
+        //authenticate the user
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +71,9 @@ public class Payment extends AppCompatActivity {
                         .setAction("Action", null).show();
 
                 try {
+                    //set up Firebase Database to retireve user card information
                 DatabaseReference firebaseReference = FirebaseDatabase.getInstance().getReference("card");
+                //SELECT * from card WHERE cardOwnerId = user Id
                 Query query = firebaseReference.orderByChild("cardOwnerId").equalTo(firebaseUser.getUid());
                 query.addListenerForSingleValueEvent(valueEventListener);
                 } catch (Exception e) {
@@ -82,6 +87,7 @@ public class Payment extends AppCompatActivity {
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
+        //receive data from previous activity
         Intent intent = getIntent();
 
 
@@ -104,10 +110,12 @@ public class Payment extends AppCompatActivity {
         textView.setText(info);
     }
 
+    //retireve database data
     ValueEventListener valueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+            //show database data
             showData(dataSnapshot);
         }
 
@@ -117,13 +125,16 @@ public class Payment extends AppCompatActivity {
         }
     };
 
+    //show database data
     public void showData(DataSnapshot dataSnapshot) {
         if (dataSnapshot.exists()) {
             try {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    //for matched record, store into a CardInfo object
                     cardInfo = snapshot.getValue(CardInfo.class);
                 }
 
+                //validate the card
                 validateCardInfo(cardInfo);
             } catch (Exception e) {
                 makeToast("Error Retrieving Card Information");
@@ -137,16 +148,20 @@ public class Payment extends AppCompatActivity {
 
     public void validateCardInfo (CardInfo cardInfo){
         Log.i(TAG, "validateCardInfo: " + cardInfo.toString());
+        //convert the inputted card no and ccv into long to be compared
         Long dCardNo = Long.parseLong(cardNo.getText().toString());
         Long dCcv = Long.parseLong(ccv.getText().toString());
 
+        //validate, ensure all are identical
         if((dCardNo.equals(cardInfo.getCardNo())) &&
                 (cardName.getText().toString().equals(cardInfo.getCardName())) &&
                 (dCcv.equals(cardInfo.getCcv()))){
 
+            //if valid, store reservation info into database
             saveReservationInfo();
 
         } else {
+            //if invalid, prompt alert dialog displaying error
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle("Error");
             alertDialog.setMessage("Incorrect Credentials");
@@ -160,31 +175,39 @@ public class Payment extends AppCompatActivity {
         }
     }
 
+    //save reservation into database
     private void saveReservationInfo() {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("reservationInfo");
 
+        //create an unique ID as primary key
         String ID = databaseReference.push().getKey();
 
         ReservationInfo reservationInfo = new ReservationInfo(ID, firebaseAuth.getInstance().getCurrentUser().getUid(), cardInfo.getCardName(),
                                                                  clubName, info, date);
 
+        //save into Firebase realtime database
         try {
-            databaseReference.child(ID).setValue(reservationInfo);
+            databaseReference.child(ID).setValue(reservationInfo)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            AlertDialog alertDialog = new AlertDialog.Builder(Payment.this).create();
+                            alertDialog.setTitle("Payment Successful");
+                            alertDialog.setMessage("Reservation is completed");
+                            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Back To Home",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
 
-            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            alertDialog.setTitle("Payment Successful");
-            alertDialog.setMessage("Reservation is completed");
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Back To Home",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                    });
+                            alertDialog.show();
                         }
                     });
-            alertDialog.show();
+
         } catch (Exception e) {
             e.printStackTrace();
             makeToast("Error inserting");

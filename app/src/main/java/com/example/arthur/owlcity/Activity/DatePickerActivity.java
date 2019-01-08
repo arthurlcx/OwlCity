@@ -50,14 +50,17 @@ public class DatePickerActivity extends AppCompatActivity {
         intent = getIntent();
         packageId = intent.getStringExtra("Pack ID");
 
+        //get current time
         Date c = Calendar.getInstance().getTime();
         System.out.println("Current time => " + c);
-
+        //set current time as default value
         SimpleDateFormat df = new SimpleDateFormat("d/M/yyyy");
         date = df.format(c);
 
+        //display default time
         textView.setText(date);
 
+        //update the date according to the changes in the calendar view
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
@@ -67,6 +70,7 @@ public class DatePickerActivity extends AppCompatActivity {
             }
         });
 
+        //establish Firebase database reference
         firebaseReference = FirebaseDatabase.getInstance().getReference("Package");
         Query query = firebaseReference.orderByChild("packID").equalTo(packageId);
 
@@ -74,6 +78,7 @@ public class DatePickerActivity extends AppCompatActivity {
 
     }
 
+    //retrieve all package data
     ValueEventListener valueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -91,6 +96,7 @@ public class DatePickerActivity extends AppCompatActivity {
         }
     };
 
+    //store data into variable
     public void assignValue(ClubPackage clubPackage){
         packName = clubPackage.getPackName();
         packDesc = clubPackage.getPackDesc();
@@ -100,6 +106,7 @@ public class DatePickerActivity extends AppCompatActivity {
 
     }
 
+    //pass information into next activity and start new activity
     public void goToPayment(View view){
         intent = new Intent(getApplicationContext(), Payment.class);
         intent.putExtra("packageName", packName);

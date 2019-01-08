@@ -60,7 +60,7 @@ public class UserLocationMapsActivity extends FragmentActivity implements OnMapR
         mMap = googleMap;
 
 
-        //Check permission
+        //Check permission for location
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
@@ -70,6 +70,7 @@ public class UserLocationMapsActivity extends FragmentActivity implements OnMapR
         }
 
 
+        //enable myLocation interface to find user location
         mMap.setMyLocationEnabled(true);
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
@@ -92,6 +93,7 @@ public class UserLocationMapsActivity extends FragmentActivity implements OnMapR
     }
 
 
+    //to check and ask location permission from user
     @SuppressLint("MissingPermission")
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

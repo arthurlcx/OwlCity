@@ -70,6 +70,7 @@ public class SignIn extends AppCompatActivity {
 
     }
 
+    // got to register activity
     public void goToRegister (View view){
         intent = new Intent(getApplicationContext(), Register.class);
 
@@ -77,11 +78,12 @@ public class SignIn extends AppCompatActivity {
         onStop();
     }
 
+    //sign in button clicked
     public void signIn (View view){
 
 
         if (firebaseAuth.getCurrentUser() != null) {
-                    // already signed in
+                    // if already signed in
 
                     intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
@@ -90,6 +92,7 @@ public class SignIn extends AppCompatActivity {
                 } else {
                     // not signed in
 
+                    //initiate Firebase Authentication Pre-built signin UI
                     startActivityForResult(
                             AuthUI.getInstance()
                                     .createSignInIntentBuilder()
@@ -100,6 +103,7 @@ public class SignIn extends AppCompatActivity {
                 }
     }
 
+    //after sign in UI completed
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -107,11 +111,15 @@ public class SignIn extends AppCompatActivity {
             IdpResponse response = IdpResponse.fromResultIntent(data);
 
             if (resultCode == RESULT_OK) {
+                //if correct email and password
                 makeToast("Welcome Back!");
+                //declare current user as the user
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+                //determine the account type (member or admin)
                 checkAccountType(user);
             } else {
+                //display error message if failed to sign in
                 AlertDialog alertDialog = new AlertDialog.Builder(this).create();
                 alertDialog.setTitle("Error signing in");
                 alertDialog.setMessage("Invalid email or password");
@@ -126,6 +134,7 @@ public class SignIn extends AppCompatActivity {
         }
     }
 
+    //check the account type vai database
     public void checkAccountType(FirebaseUser user){
         DatabaseReference firebaseReference = FirebaseDatabase.getInstance().getReference("user");
         Query query = firebaseReference.orderByChild("userId").equalTo(user.getUid());
@@ -133,6 +142,7 @@ public class SignIn extends AppCompatActivity {
         query.addListenerForSingleValueEvent(valueEventListener);
     }
 
+    //retrive data from database
     ValueEventListener valueEventListener = new ValueEventListener() {
         String accountType;
         @Override
@@ -143,6 +153,7 @@ public class SignIn extends AppCompatActivity {
                 accountType = user.getAccountType();
             }
 
+            //pass the result to be process
             nextActivity(accountType);
         }
 
@@ -155,11 +166,14 @@ public class SignIn extends AppCompatActivity {
     public void nextActivity (String accountType){
         Intent intent;
 
+        //if account is member, bring to members page
         if(accountType.equals("member")){
+            //if account is member, bring to members page
+
             intent = new Intent(getApplicationContext(), MainActivity.class);
-        } else if (accountType.equals("driver")){
-            intent = new Intent(getApplicationContext(), Driver.class);
         } else {
+            //if account is admin, bring to admin page
+
             intent = new Intent(getApplicationContext(), adminActivity.class);
         }
 
@@ -167,8 +181,10 @@ public class SignIn extends AppCompatActivity {
         onStop();
     }
 
+    //continue as guest button clicked
     public void signInAnnoym (View view){
         if (firebaseAuth.getCurrentUser() == null) {
+            //initiate Firebase Authentication for anonymous sign in
             firebaseAuth.signInAnonymously()
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -196,6 +212,7 @@ public class SignIn extends AppCompatActivity {
         }
     }
 
+    //to sign out
     public void signOut(){
         AuthUI.getInstance()
                 .signOut(this)

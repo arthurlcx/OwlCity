@@ -123,6 +123,7 @@ public class MainActivity extends AppCompatActivity
                 navEmail.setText(firebaseUser.getEmail());
 
                 retrieveProfilePic();
+
             }
         }
     }
@@ -215,14 +216,18 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
+
             fragment = new HomeFragment();
+
         } else if (id == R.id.nav_makeReservation) {
+
             fragment = new MakeReservationFragment();
-        } else if (id == R.id.nav_getRide) {
+
+        } else if (id == R.id.nav_myLocation) {
+
             intent = new Intent(getApplicationContext(), UserLocationMapsActivity.class);
             startActivity(intent);
 
-        } else if (id == R.id.nav_invite) {
 
         } else if (id == R.id.nav_myReservation) {
             fragment = new ReservationFragment();
@@ -245,7 +250,13 @@ public class MainActivity extends AppCompatActivity
             intent = new Intent(getApplicationContext(), Register.class);
             startActivity(intent);
 
+        } else if (id == R.id.nav_profile) {
+
+            intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            startActivity(intent);
+
         }
+
 
         if (fragment != null){
             commitFragment(fragment);
