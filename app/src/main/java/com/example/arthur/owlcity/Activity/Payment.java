@@ -181,13 +181,13 @@ public class Payment extends AppCompatActivity {
     public void validateCardInfo (CardInfo cardInfo){
         Log.i(TAG, "validateCardInfo: " + cardInfo.toString());
         //convert the inputted card no and ccv into long to be compared
-        Long dCardNo = Long.parseLong(cardNo.getText().toString());
-        Long dCcv = Long.parseLong(ccv.getText().toString());
+        String sCardNo = cardNo.getText().toString();
+        String sCcv = ccv.getText().toString();
 
         //validate, ensure all are identical
-        if((dCardNo.equals(cardInfo.getCardNo())) &&
+        if((sCardNo.equals(cardInfo.getCardNo())) &&
                 (cardName.getText().toString().equals(cardInfo.getCardName())) &&
-                (dCcv.equals(cardInfo.getCcv()))){
+                (sCcv.equals(cardInfo.getCcv()))){
 
             //if valid, store reservation info into database
             saveReservationInfo();
