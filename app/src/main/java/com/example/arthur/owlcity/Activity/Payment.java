@@ -44,6 +44,9 @@ public class Payment extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
+    private DatabaseReference firebaseReference;
+    private Query query;
+
 
     private FirebaseUser firebaseUser;
 
@@ -60,6 +63,13 @@ public class Payment extends AppCompatActivity {
         //initiate current user from Firebase Authentication
         firebaseUser = firebaseAuth.getInstance().getCurrentUser();
 
+        //set up Firebase Database to retireve user card information
+        //check whether the user has added any card or not
+        firebaseReference = FirebaseDatabase.getInstance().getReference("card");
+        //SELECT * from card WHERE cardOwnerId = user Id
+        query = firebaseReference.orderByChild("cardOwnerId").equalTo(firebaseUser.getUid());
+        query.addListenerForSingleValueEvent(valueEventListenerNew);
+
 
         //authenticate the user
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -70,10 +80,7 @@ public class Payment extends AppCompatActivity {
                         .setAction("Action", null).show();
 
                 try {
-                    //set up Firebase Database to retireve user card information
-                DatabaseReference firebaseReference = FirebaseDatabase.getInstance().getReference("card");
-                //SELECT * from card WHERE cardOwnerId = user Id
-                Query query = firebaseReference.orderByChild("cardOwnerId").equalTo(firebaseUser.getUid());
+                //retrieve payment info
                 query.addListenerForSingleValueEvent(valueEventListener);
                 } catch (Exception e) {
                     makeToast("Error calling query");
@@ -109,13 +116,41 @@ public class Payment extends AppCompatActivity {
         textView.setText(info);
     }
 
+    //Check got any card or not
+    ValueEventListener valueEventListenerNew = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            if (!dataSnapshot.exists()) {
+
+                //if no card info found, redirect user to profile to add card
+                AlertDialog alertDialog = new AlertDialog.Builder(Payment.this).create();
+                alertDialog.setTitle("Opps..");
+                alertDialog.setMessage("Card has not been added to this account. Please add the a card and try again.");
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                                startActivity(intent);
+                                finish();
+                                dialog.dismiss();
+                            }});
+                alertDialog.show();
+            }
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
+
     //retireve database data
     ValueEventListener valueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //show database data
+                showData(dataSnapshot);
 
-            //show database data
-            showData(dataSnapshot);
         }
 
         @Override
@@ -139,8 +174,6 @@ public class Payment extends AppCompatActivity {
                 makeToast("Error Retrieving Card Information");
                 e.printStackTrace();
             }
-        } else {
-            makeToast("Card not registered");
         }
 
     }
