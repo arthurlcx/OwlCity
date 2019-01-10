@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,7 +19,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.arthur.owlcity.Adapter.MyReservationAdapter;
 import com.example.arthur.owlcity.Class.ReservationInfo;
+import com.example.arthur.owlcity.Fragment.ReservationFragment;
 import com.example.arthur.owlcity.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -134,6 +139,15 @@ public class ReservationDetail extends AppCompatActivity {
         dateTextView.setText(reservationInfo.getDate());
         clubNameTextView.setText(reservationInfo.getClubName());
         packageDetailTextView.setText(reservationInfo.getReservationDetails());
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+        finish();
+
     }
 
     public void makeToast (String string){

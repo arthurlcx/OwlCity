@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity
                             finishAffinity();
                         }
 
-                    }) 
+                    })
                     .setNegativeButton("No", null)
                     .show();
         }

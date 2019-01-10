@@ -45,7 +45,8 @@
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="right|center"
         app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24dp"
-        tools:ignore="VectorDrawableCompat"/>
+        tools:ignore="VectorDrawableCompat"
+        android:backgroundTint="@android:color/holo_green_light"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/mapfab"
@@ -54,7 +55,8 @@
         android:layout_margin="@dimen/fab_margin"
         app:layout_anchor="@+id/app_bar"
         app:layout_anchorGravity="bottom|right"
-        app:srcCompat="@android:drawable/ic_dialog_map" />
+        app:srcCompat="@android:drawable/ic_dialog_map"
+        android:backgroundTint="@android:color/holo_red_dark"/>
 
 
 

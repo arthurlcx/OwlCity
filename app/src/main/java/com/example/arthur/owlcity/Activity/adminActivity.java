@@ -116,7 +116,7 @@ public class adminActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(getApplicationContext(), SignIn.class);
                 startActivity(intent);
-                finish();
+                finishAffinity();
 
             }
         });
@@ -253,6 +253,23 @@ public class adminActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        AuthUI.getInstance()
+                .signOut(adminActivity.this)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // ...
+                        makeToast("Successfully logged out");
+                    }
+                });
+
+        Intent intent = new Intent(getApplicationContext(), SignIn.class);
+        startActivity(intent);
+        finishAffinity();
+    }
 
     public void makeToast (String string){
         Toast.makeText(this, string, Toast.LENGTH_SHORT).show();

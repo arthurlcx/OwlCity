@@ -44,8 +44,8 @@ public class AddCardActivity extends AppCompatActivity {
         //create new unique key as primary key
         String ID = databaseReference.push().getKey();
 
-        CardInfo cardInfo = new CardInfo(ID, Long.parseLong(cardNoEditText.getText().toString()), nameEditText.getText().toString(),
-                                            Long.parseLong(ccvEditText.getText().toString()), firebaseUser.getUid() );
+        CardInfo cardInfo = new CardInfo(ID, cardNoEditText.getText().toString(), nameEditText.getText().toString(),
+                                            ccvEditText.getText().toString(), firebaseUser.getUid() );
 
         databaseReference.child(ID).setValue(cardInfo)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {

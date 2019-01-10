@@ -41,12 +41,9 @@ public class SignIn extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
 
-    private FirebaseUser firebaseUser;
-
     private Intent intent;
 
     private ProgressBar progressBar;
-    private RelativeLayout relativeLayout;
 
 
     List<AuthUI.IdpConfig> providers = Arrays.asList(
@@ -65,7 +62,7 @@ public class SignIn extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progressBar2);
 
-        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
 
 
     }
@@ -118,18 +115,6 @@ public class SignIn extends AppCompatActivity {
 
                 //determine the account type (member or admin)
                 checkAccountType(user);
-            } else {
-                //display error message if failed to sign in
-                AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-                alertDialog.setTitle("Error signing in");
-                alertDialog.setMessage("Invalid email or password");
-                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Try Again",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.show();
             }
         }
     }
@@ -165,6 +150,7 @@ public class SignIn extends AppCompatActivity {
 
     public void nextActivity (String accountType){
         Intent intent;
+        progressBar.setVisibility(View.VISIBLE);
 
         //if account is member, bring to members page
         if(accountType.equals("member")){

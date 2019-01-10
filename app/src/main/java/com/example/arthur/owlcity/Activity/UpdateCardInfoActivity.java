@@ -76,8 +76,8 @@ public class UpdateCardInfoActivity extends AppCompatActivity {
     public void updateCard (View view){
 
 
-        CardInfo newCardInfo = new CardInfo(cardInfo.getCardId(), Long.parseLong(cardNoEditText.getText().toString()), nameEditText.getText().toString(),
-                                            Long.parseLong(ccvEditText.getText().toString()), firebaseUser.getUid() );
+        CardInfo newCardInfo = new CardInfo(cardInfo.getCardId(), cardNoEditText.getText().toString(), nameEditText.getText().toString(),
+                                            ccvEditText.getText().toString(), firebaseUser.getUid() );
 
         //Update values inside Firebase database
         databaseReference.child(cardInfo.getCardId()).setValue(newCardInfo)
